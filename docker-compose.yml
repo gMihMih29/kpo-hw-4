@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  db:
+    ports:
+      - "5432:5432"
+    container_name: DBContainer
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres-kpo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  api:
+    depends_on:
+      - db
+    build: .
+    container_name: WebContainer
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_JSON: '{
+                      "spring.datasource.url" : "jdbc:postgresql://DBContainer:5432/postgres",
+                      "spring.datasource.username" : "postgres",
+                      "spring.datasource.password" : "postgres",
+                      "spring.datasource.driver-class-name" : "org.postgresql.Driver",
+                      "spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults" : "false",
+                      "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
+                      "spring.liquibase.changeLog" : "classpath:db/changelog/db.changelog-master.yaml",
+                      "logging.level.liquibase" : "info"
+                    }'
