@@ -36,6 +36,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
     implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
 
+
+    implementation("org.apache.commons:commons-lang3")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
+
 }
 
 tasks.test {
